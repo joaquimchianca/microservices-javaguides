@@ -1,4 +1,4 @@
-package dev.joaquim.department_service;
+package dev.joaquim.departmentService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

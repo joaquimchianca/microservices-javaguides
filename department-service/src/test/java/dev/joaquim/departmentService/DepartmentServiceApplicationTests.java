@@ -1,4 +1,4 @@
-package dev.joaquim.department_service;
+package dev.joaquim.departmentService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
