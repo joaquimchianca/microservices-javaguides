@@ -1,6 +1,6 @@
 spring:
    application:
-      name: Department Service
+      name: Application
    datasource:
       url: jdbc:mysql://localhost:3306/department_db
       username: root
@@ -13,4 +13,3 @@ spring:
       properties:
          hibernate:
             format_sql: true
-
