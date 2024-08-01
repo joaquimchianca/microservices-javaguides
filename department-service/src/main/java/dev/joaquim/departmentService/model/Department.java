@@ -19,7 +19,7 @@ public class Department {
     @Column(name = "department_name")
     private String name;
 
-    @Column(name = "department_code")
+    @Column(name = "department_code", unique = true)
     private String code;
 
     @Column(name = "department_description", columnDefinition = "TEXT")
