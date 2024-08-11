@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(url = "http://localhost:8082", value = "department-service")
 public interface APIClient {
 
-    @GetMapping("/v1/department/code/{departmentCode}")
+    @GetMapping("/v1/department/code/{departmentCode}/only")
     DepartmentDto getDepartmentByCode(@PathVariable String departmentCode);
 
     @PutMapping("/v1/department/code/{departmentCode}")
-    void sumOneToEmployeeCount(@PathVariable String departmentCode);
+    void updateEmployeeCount(@PathVariable String departmentCode, @RequestBody Long number);
 
 }

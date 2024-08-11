@@ -85,7 +85,7 @@ public class DepartmentService {
         return target.getId();
     }
 
-    public ResponseDto getDepartmentByCode(String departmentCode) {
+    public ResponseDto getDepartmentAndEmployeesByCode(String departmentCode) {
         Department target = departmentRepository.findByCode(departmentCode)
                 .orElseThrow(() -> new DepartmentNotFoundException(departmentCode));
         DepartmentDto departmentDto = modelMapper.map(target, DepartmentDto.class);
@@ -105,12 +105,19 @@ public class DepartmentService {
         return response;
     }
 
-
-    public DepartmentDto sumOneToEmployeeCount(String departmentCode) {
+    public DepartmentDto getDepartmentByCode(String departmentCode) {
         Department target = departmentRepository.findByCode(departmentCode)
                 .orElseThrow(() -> new DepartmentNotFoundException(departmentCode));
 
-        Long newCount = target.getEmployeeCount() + 1;
+        return modelMapper.map(target, DepartmentDto.class);
+    }
+
+
+    public DepartmentDto updateEmployeeCount(String departmentCode, Long number) {
+        Department target = departmentRepository.findByCode(departmentCode)
+                .orElseThrow(() -> new DepartmentNotFoundException(departmentCode));
+
+        Long newCount = target.getEmployeeCount() + (number);
         target.setEmployeeCount(newCount);
         Department newDepartment = departmentRepository.save(target);
 

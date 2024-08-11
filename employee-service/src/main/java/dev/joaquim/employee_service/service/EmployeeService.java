@@ -44,7 +44,7 @@ public class EmployeeService {
             throw new EntityNotFoundException();
         }
 
-        apiClient.sumOneToEmployeeCount(dto.getDepartmentCode());
+        apiClient.updateEmployeeCount(dto.getDepartmentCode(), 1L);
 
         return employeeRepository.save(
                 modelMapper.map(dto, Employee.class)
@@ -67,6 +67,12 @@ public class EmployeeService {
 
         if (isNotBlank(dto.getEmail())) {
             target.setEmail((dto.getEmail()));
+        }
+
+        if(isNotBlank(dto.getDepartmentCode())) {
+            apiClient.updateEmployeeCount(target.getDepartmentCode(), -1L);
+            target.setDepartmentCode(dto.getDepartmentCode());
+            apiClient.updateEmployeeCount(target.getDepartmentCode(), 1L);
         }
 
         Employee newEmployee = employeeRepository.save(target);
@@ -101,6 +107,7 @@ public class EmployeeService {
                 () -> new EntityNotFoundException());
 
         employeeRepository.deleteById(id);
+        apiClient.updateEmployeeCount(target.getDepartmentCode(), -1L);
         return modelMapper.map(target, EmployeeDto.class);
     }
 }
