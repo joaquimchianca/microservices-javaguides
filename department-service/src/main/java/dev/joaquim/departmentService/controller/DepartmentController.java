@@ -42,9 +42,20 @@ public class DepartmentController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteDepartment(@PathVariable String id) {
         return ResponseEntity.ok(departmentService.removeDepartment(id));
+    }
+
+    @GetMapping("/code/{departmentCode}")
+    public ResponseEntity<DepartmentDto> getDepartmentByCode(@PathVariable String departmentCode) {
+        return ResponseEntity.ok(departmentService.getDepartmentByCode(departmentCode));
+    }
+
+    // method for sum +1 in employeeCount
+    @PutMapping("/code/{departmentCode}")
+    public ResponseEntity<DepartmentDto> sumOneToEmployeeCount(@PathVariable String departmentCode) {
+        return ResponseEntity.ok(departmentService.sumOneToEmployeeCount(departmentCode));
     }
 
 }
