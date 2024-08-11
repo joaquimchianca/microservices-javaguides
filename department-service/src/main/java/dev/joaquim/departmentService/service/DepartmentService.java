@@ -1,10 +1,13 @@
 package dev.joaquim.departmentService.service;
 
 import dev.joaquim.departmentService.dto.DepartmentDto;
+import dev.joaquim.departmentService.dto.EmployeeDto;
+import dev.joaquim.departmentService.dto.ResponseDto;
 import dev.joaquim.departmentService.exception.model.DepartmentNotFoundException;
 import dev.joaquim.departmentService.exception.model.SameDepartmentCodeException;
 import dev.joaquim.departmentService.model.Department;
 import dev.joaquim.departmentService.repository.DepartmentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
     private final ModelMapper modelMapper;
+    private final APIClient apiClient;
 
     public List<DepartmentDto> getAll() {
         return departmentRepository.findAll()
@@ -81,11 +85,24 @@ public class DepartmentService {
         return target.getId();
     }
 
-    public DepartmentDto getDepartmentByCode(String departmentCode) {
+    public ResponseDto getDepartmentByCode(String departmentCode) {
         Department target = departmentRepository.findByCode(departmentCode)
                 .orElseThrow(() -> new DepartmentNotFoundException(departmentCode));
+        DepartmentDto departmentDto = modelMapper.map(target, DepartmentDto.class);
 
-        return modelMapper.map(target, DepartmentDto.class);
+        ResponseDto response = new ResponseDto();
+        response.setDepartment(departmentDto);
+
+        try {
+            departmentRepository.existsByCode(departmentCode);
+        } catch (Exception ex) {
+            throw new DepartmentNotFoundException(departmentCode);
+        }
+
+        List<EmployeeDto> employeeDtos = apiClient.getEmployeesByDepartmentCode(departmentCode);
+        response.setEmployees(employeeDtos);
+
+        return response;
     }
 
 

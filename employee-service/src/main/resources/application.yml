@@ -13,5 +13,12 @@ spring:
       properties:
          hibernate:
             format_sql: true
+   hikari:
+      maximum-pool-size: 20
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+
 server:
    port: 8081

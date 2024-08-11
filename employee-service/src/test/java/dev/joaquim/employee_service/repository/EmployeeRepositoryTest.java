@@ -10,7 +10,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -44,5 +46,32 @@ public class EmployeeRepositoryTest {
         assertThat(retrievedEmployee.getFirstName()).isEqualTo("Joaquim");
         assertThat(retrievedEmployee.getLastName()).isEqualTo("Silva");
         assertThat(retrievedEmployee.getEmail()).isEqualTo("joaquim.silva@example.com");
+    }
+
+    @Test
+    @DisplayName("Testa método de listagem de funcionários a partir do código de departamento")
+    public void testFindByDepartmentCode() {
+
+        employeeRepository.deleteAll();
+
+        Employee emp1 = new Employee();
+        emp1.setFirstName("Teste");
+        emp1.setLastName("da Silva");
+        emp1.setEmail("testedasilva@gmail.com");
+        emp1.setDepartmentCode("Test");
+
+        Employee emp2 = new Employee();
+        emp2.setFirstName("Teste2");
+        emp2.setLastName("da Silva");
+        emp2.setEmail("teste2dasilva@gmail.com");
+        emp2.setDepartmentCode("Test");
+
+        employeeRepository.saveAll(Arrays.asList(emp1, emp2));
+
+        List<Employee> employeesTest = employeeRepository.findByDepartmentCode("Test");
+
+        assertThat(employeesTest).hasSize(2);
+        assertThat(employeesTest).extracting(Employee::getFirstName)
+                .containsExactlyInAnyOrder("Teste", "Teste2");
     }
 }

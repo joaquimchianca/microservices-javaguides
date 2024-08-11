@@ -12,4 +12,5 @@ public interface APIClient {
 
     @PutMapping("/v1/department/code/{departmentCode}")
     void sumOneToEmployeeCount(@PathVariable String departmentCode);
+
 }

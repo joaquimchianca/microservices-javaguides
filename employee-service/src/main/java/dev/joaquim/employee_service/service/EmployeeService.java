@@ -73,6 +73,24 @@ public class EmployeeService {
         return modelMapper.map(newEmployee, EmployeeDto.class);
     }
 
+    public List<EmployeeDto> findByDepartmentCode(String departmentCode) {
+//        try {
+//            apiClient.getDepartmentByCode(departmentCode);
+//        } catch (Exception ex) {
+//            throw new EntityNotFoundException();
+//        }
+
+        List<Employee> employees = employeeRepository.findByDepartmentCode(departmentCode);
+
+        if (employees.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
+        return employees.stream().map(
+                emp -> modelMapper.map(emp, EmployeeDto.class))
+                .toList();
+    }
+
     // checa se valor pode ser atualizado
     private boolean isNotBlank(String str) {
         return str != null && !str.isBlank();

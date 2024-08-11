@@ -46,6 +46,14 @@ public class EmployeeController {
         return new ResponseEntity<EmployeeDto>(employeeService.updateEmployee(id, dto), HttpStatus.OK);
     }
 
+    // get all employees from one department
+    @GetMapping("/code/{departmentCode}")
+    public ResponseEntity<List<EmployeeDto>> getEmployeesByDepartmentCode(
+            @PathVariable String departmentCode
+    ) {
+        return ResponseEntity.ok(employeeService.findByDepartmentCode(departmentCode));
+    }
+
     // delete one
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable String id) {

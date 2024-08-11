@@ -1,6 +1,7 @@
 package dev.joaquim.departmentService.controller;
 
 import dev.joaquim.departmentService.dto.DepartmentDto;
+import dev.joaquim.departmentService.dto.ResponseDto;
 import dev.joaquim.departmentService.model.Department;
 import dev.joaquim.departmentService.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
@@ -48,9 +49,10 @@ public class DepartmentController {
     }
 
     @GetMapping("/code/{departmentCode}")
-    public ResponseEntity<DepartmentDto> getDepartmentByCode(@PathVariable String departmentCode) {
+    public ResponseEntity<ResponseDto> getDepartmentByCode(@PathVariable String departmentCode) {
         return ResponseEntity.ok(departmentService.getDepartmentByCode(departmentCode));
     }
+
 
     // method for sum +1 in employeeCount
     @PutMapping("/code/{departmentCode}")
