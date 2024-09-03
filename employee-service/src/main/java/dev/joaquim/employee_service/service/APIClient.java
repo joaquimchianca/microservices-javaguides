@@ -4,7 +4,7 @@ import dev.joaquim.employee_service.dto.DepartmentDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(url = "http://localhost:8082", value = "department-service")
+@FeignClient(name = "department-service")
 public interface APIClient {
 
     @GetMapping("/v1/department/code/{departmentCode}/only")

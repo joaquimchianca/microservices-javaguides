@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(url = "http://localhost:8081", name = "employee-service")
+@FeignClient(name = "employee-service")
 public interface APIClient {
 
     @GetMapping("/v1/employee/code/{departmentCode}")
